@@ -14,18 +14,30 @@ function getUrlData(){
 	
 	output.innerHTML = "";
 	
-	let prom1 = fetch(images[0].url);
-    let prom2 = fetch(images[1].url);
-    let prom3 = fetch(images[2].url);
+	// let prom1 = fetch(images[0].url);
+    // let prom2 = fetch(images[1].url);
+    // let prom3 = fetch(images[2].url);
+
+	let prom1 = new Promise((resolve,reject)=>{
+		          resolve(images[0].url);
+	});
+	let prom2 = new Promise((resolve,reject)=>{
+		          resolve(images[1].url);
+	});
+	let prom3 = new Promise((resolve,reject)=>{
+		          resolve(images[2].url);
+	});
+    
 
 	let result = Promise.all([prom1,prom2,prom3]);
 	
 	    result.then((data)=>{
 			//data going to be array of images with wich each promise got resolve
-			data.forEach((image)=>{
+			data.forEach((imageUrl)=>{
 				const imageTag = document.createElement("img");
 				imageTag.className = "photos";
-				imageTag.src= `${image.url}`;
+				//imageTag.src= `${image.url}`;   //in case fetch is used
+				imageTag.src= imageUrl;
 			output.append(imageTag);	
 			});
 			
